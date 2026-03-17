@@ -1063,16 +1063,16 @@ function Home(){
       </div>
 
       {si&&(
-        <div style={{display:"flex",gap:48,alignItems:"center",padding:"20px 0 24px",borderTop:"1px solid var(--border)",borderBottom:"1px solid var(--border)",marginBottom:48}}>
+        <div style={{display:"flex",gap:"clamp(16px,4vw,48px)",alignItems:"center",padding:"16px 0 20px",borderTop:"1px solid var(--border)",borderBottom:"1px solid var(--border)",marginBottom:48,flexWrap:"wrap",justifyContent:"space-between"}}>
           {[
-            [si.year,          "Season"],
+            [si.year,              "Season"],
             [`R${si.currentRound}`,"Round"],
-            [si.totalRounds,   "Races"],
-            [si.driverCount,   "Drivers"],
+            [si.totalRounds,       "Races"],
+            [si.driverCount,       "Drivers"],
           ].map(([v,l])=>(
-            <div key={l} style={{display:"flex",alignItems:"baseline",gap:8}}>
-              <span style={{fontFamily:"var(--font-head)",fontSize:44,fontWeight:900,letterSpacing:"-0.02em",color:"var(--text)",lineHeight:1}}>{v}</span>
-              <span style={{fontSize:13,letterSpacing:"0.2em",textTransform:"uppercase",color:"var(--text-muted)",fontWeight:600}}>{l}</span>
+            <div key={l} style={{display:"flex",flexDirection:"column",alignItems:"center",flex:"1 1 0",minWidth:60}}>
+              <span style={{fontFamily:"var(--font-head)",fontSize:"clamp(22px,5vw,44px)",fontWeight:900,letterSpacing:"-0.02em",color:"var(--text)",lineHeight:1}}>{v}</span>
+              <span style={{fontSize:"clamp(9px,2vw,13px)",letterSpacing:"0.2em",textTransform:"uppercase",color:"var(--text-muted)",fontWeight:600,marginTop:4,textAlign:"center"}}>{l}</span>
             </div>
           ))}
         </div>
