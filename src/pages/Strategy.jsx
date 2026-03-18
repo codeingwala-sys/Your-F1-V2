@@ -1041,10 +1041,10 @@ function LiveStandings({ allCars, scrubLap, LAPS, showLabels, setShowLabels, ACC
   return (
     <div style={{ marginTop: 12 }}>
       <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:6 }}>
-        <div style={{ fontSize:10, letterSpacing:".2em", textTransform:"uppercase", color:"#333" }}>
+        <div style={{ fontSize:10, letterSpacing:".2em", textTransform:"uppercase", color:"#999" }}>
           STANDINGS — L{scrubLap}/{LAPS}
         </div>
-        <label style={{ fontSize:11, color:"#2a2a2a", cursor:"pointer", display:"flex", gap:4, alignItems:"center" }}>
+        <label style={{ fontSize:11, color:"#888", cursor:"pointer", display:"flex", gap:4, alignItems:"center" }}>
           <input type="checkbox" checked={showLabels} onChange={e=>setShowLabels(e.target.checked)} style={{accentColor:ACC}}/>
           Labels
         </label>
@@ -1080,13 +1080,13 @@ function LiveStandings({ allCars, scrubLap, LAPS, showLabels, setShowLabels, ACC
               transform: `translateY(${translateY}px)`,
               display: "flex", alignItems: "center", gap: 6, padding: "0 8px",
               background: flashCol,
-              border: `1px solid ${car.isUser ? car.col+"22" : "#0d0d0d"}`,
+              border: `1px solid ${car.isUser ? car.col+"44" : "#333"}`,
               boxSizing: "border-box", willChange: "transform",
             }}>
               <div style={{ fontSize:12, fontWeight:900, color:posCol, minWidth:24, lineHeight:1 }}>P{rank+1}</div>
               <div style={{ width:3, alignSelf:"stretch", background:car.col, flexShrink:0, borderRadius:1 }}/>
               <div style={{ flex:1, overflow:"hidden" }}>
-                <div style={{ fontSize:11, fontWeight:700, color: car.isUser?"#ddd":"#555",
+                <div style={{ fontSize:11, fontWeight:700, color: car.isUser?"#f0f0f0":"#aaa",
                   whiteSpace:"nowrap", overflow:"hidden", textOverflow:"ellipsis" }}>
                   {car.name?.split(" ").pop()}
                 </div>
@@ -1155,19 +1155,19 @@ function RaceMap({ trackKey, simData, showLabels, finishZoom }) {
       ctx.beginPath();
       spline.forEach(([x,y],i)=>{const[cx,cy]=toCanvas(x,y);i===0?ctx.moveTo(cx,cy):ctx.lineTo(cx,cy);});
       ctx.closePath();
-      ctx.strokeStyle="rgba(255,140,0,.06)"; ctx.lineWidth=32; ctx.lineJoin="round"; ctx.stroke();
+      ctx.strokeStyle="rgba(255,140,0,.08)"; ctx.lineWidth=32; ctx.lineJoin="round"; ctx.stroke();
       ctx.beginPath();
       spline.forEach(([x,y],i)=>{const[cx,cy]=toCanvas(x,y);i===0?ctx.moveTo(cx,cy):ctx.lineTo(cx,cy);});
       ctx.closePath();
-      ctx.strokeStyle="rgba(0,0,0,.75)"; ctx.lineWidth=24; ctx.stroke();
+      ctx.strokeStyle="rgba(0,0,0,.5)"; ctx.lineWidth=24; ctx.stroke();
       ctx.beginPath();
       spline.forEach(([x,y],i)=>{const[cx,cy]=toCanvas(x,y);i===0?ctx.moveTo(cx,cy):ctx.lineTo(cx,cy);});
       ctx.closePath();
-      ctx.strokeStyle="#1c1c1c"; ctx.lineWidth=19; ctx.stroke();
+      ctx.strokeStyle="#252525"; ctx.lineWidth=19; ctx.stroke();
       ctx.beginPath();
       spline.forEach(([x,y],i)=>{const[cx,cy]=toCanvas(x,y);i===0?ctx.moveTo(cx,cy):ctx.lineTo(cx,cy);});
       ctx.closePath();
-      ctx.strokeStyle="rgba(255,255,255,.04)"; ctx.lineWidth=5; ctx.stroke();
+      ctx.strokeStyle="rgba(255,255,255,.08)"; ctx.lineWidth=5; ctx.stroke();
       if (pitPts.length > 1) {
         ctx.beginPath();
         pitPts.forEach(([x,y],i)=>{const[cx,cy]=toCanvas(x,y);i===0?ctx.moveTo(cx,cy):ctx.lineTo(cx,cy);});
@@ -1342,7 +1342,7 @@ function RaceMap({ trackKey, simData, showLabels, finishZoom }) {
   }, [trackKey, simData, showLabels]);
 
   return (
-    <div style={{ position:"relative", height:440, background:"#030303", borderRadius:6, overflow:"hidden", border:"1px solid #111" }} className="race-map-h">
+    <div style={{ position:"relative", height:440, background:"#141414", borderRadius:6, overflow:"hidden", border:"1px solid #2e2e2e" }} className="race-map-h">
       <canvas ref={canvasRef} style={{ display:"block", width:"100%", height:"100%" }}/>
       {finishZoom && winner && (
         <div style={{
@@ -1441,17 +1441,17 @@ function GapChart({ allCars, scrubLap }) {
     const lo=Math.min(...flat)-3,hi=Math.max(...flat)+3;
     const yS=v=>P.t+(1-(v-lo)/(hi-lo))*(H-P.t-P.b);
 
-    ctx.strokeStyle="rgba(255,255,255,.04)"; ctx.lineWidth=1;
+    ctx.strokeStyle="rgba(255,255,255,.08)"; ctx.lineWidth=1;
     [-30,-20,-10,0,10,20,30].forEach(v=>{
       if (v<lo||v>hi) return;
       ctx.beginPath(); ctx.moveTo(P.l,yS(v)); ctx.lineTo(W-P.r,yS(v)); ctx.stroke();
-      ctx.fillStyle="rgba(255,255,255,.12)"; ctx.font="6px monospace"; ctx.textAlign="right";
+      ctx.fillStyle="rgba(255,255,255,.5)"; ctx.font="6px monospace"; ctx.textAlign="right";
       ctx.fillText(v===0?"±0":v>0?`+${v}`:v,P.l-1,yS(v)+2);
     });
 
     ctx.strokeStyle="rgba(255,255,255,.18)"; ctx.lineWidth=1.5; ctx.setLineDash([4,6]);
     ctx.beginPath(); ctx.moveTo(P.l,yS(0)); ctx.lineTo(W-P.r,yS(0)); ctx.stroke(); ctx.setLineDash([]);
-    ctx.fillStyle="rgba(255,255,255,.4)"; ctx.font="bold 7px sans-serif"; ctx.textAlign="left";
+    ctx.fillStyle="rgba(255,255,255,.7)"; ctx.font="bold 7px sans-serif"; ctx.textAlign="left";
     ctx.fillText("YOU",W-P.r+3,yS(0)+3);
 
     rivals.slice(0,8).forEach(car=>{
@@ -1470,7 +1470,7 @@ function GapChart({ allCars, scrubLap }) {
       ctx.strokeStyle="rgba(255,255,255,.35)"; ctx.lineWidth=1.5;
       ctx.beginPath(); ctx.moveTo(xS(scrubLap-1),P.t); ctx.lineTo(xS(scrubLap-1),H-P.b); ctx.stroke();
     }
-    ctx.fillStyle="rgba(255,255,255,.15)"; ctx.font="6px monospace"; ctx.textAlign="center";
+    ctx.fillStyle="rgba(255,255,255,.55)"; ctx.font="6px monospace"; ctx.textAlign="center";
     for (let i=0;i<n;i+=Math.floor(n/6)) ctx.fillText(`L${i+1}`,xS(i),H-4);
   }, [allCars, scrubLap]);
   return <canvas ref={ref} style={{ display:"block", width:"100%", height:130 }}/>;
@@ -1486,7 +1486,7 @@ function TyreGauge({ temp, compound }) {
   const isOpt = temp >= C.optTempLo && temp <= C.optTempHi;
   return (
     <div style={{ textAlign:"center" }}>
-      <div style={{ fontSize:10, color:"#333", letterSpacing:".15em", textTransform:"uppercase", marginBottom:4 }}>TYRE TEMP</div>
+      <div style={{ fontSize:10, color:"#999", letterSpacing:".15em", textTransform:"uppercase", marginBottom:4 }}>TYRE TEMP</div>
       <div style={{ position:"relative", width:40, height:40, margin:"0 auto" }}>
         <svg width={40} height={40} style={{ transform:"rotate(-90deg)" }}>
           <circle cx={20} cy={20} r={15} fill="none" stroke="#111" strokeWidth={5}/>
@@ -1523,9 +1523,9 @@ function UndercutPanel({ allCars, scrubLap, trackKey }) {
 
   return (
     <div>
-      <div style={{ fontSize:12, color:"#555", letterSpacing:".2em", textTransform:"uppercase", marginBottom:8 }}>⚡ UNDERCUT CALCULATOR</div>
+      <div style={{ fontSize:12, color:"#bbb", letterSpacing:".2em", textTransform:"uppercase", marginBottom:8 }}>⚡ UNDERCUT CALCULATOR</div>
       {aheadRivals.length === 0 ? (
-        <div style={{ fontSize:10, color:"#2a2a2a", fontStyle:"italic" }}>No rivals within undercut range (8s ahead)</div>
+        <div style={{ fontSize:10, color:"#888", fontStyle:"italic" }}>No rivals within undercut range (8s ahead)</div>
       ) : (
         <>
           <div style={{ display:"flex", gap:4, flexWrap:"wrap", marginBottom:10 }}>
@@ -1549,8 +1549,8 @@ function UndercutPanel({ allCars, scrubLap, trackKey }) {
                 ["LAPS LEFT",  calc.remainingLaps,     "#555"],
                 ["GAP AFTER",  calc.gapAfter>0?`+${calc.gapAfter.toFixed(2)}s`:`${calc.gapAfter.toFixed(2)}s`, calc.success?"#39B54A":"#e10600"],
               ].map(([k, v, c]) => (
-                <div key={k} style={{ background:"#0d0d0d", padding:"5px 7px", border:"1px solid #141414", textAlign:"center" }}>
-                  <div style={{ fontSize:9, color:"#333", letterSpacing:".12em" }}>{k}</div>
+                <div key={k} style={{ background:"#1e1e1e", padding:"5px 7px", border:"1px solid #2e2e2e", textAlign:"center" }}>
+                  <div style={{ fontSize:9, color:"#999", letterSpacing:".12em" }}>{k}</div>
                   <div style={{ fontSize:13, fontWeight:900, color:c, marginTop:2 }}>{v}</div>
                 </div>
               ))}
@@ -1560,7 +1560,7 @@ function UndercutPanel({ allCars, scrubLap, trackKey }) {
                     ? `✓ UNDERCUT WORKS — Recovers in ~${calc.lapsToRecover.toFixed(1)} laps`
                     : `✗ Need ${calc.lapsNeeded} more laps to recover pit delta`}
                 </div>
-                <div style={{ fontSize:10, color:"#333", marginTop:2 }}>
+                <div style={{ fontSize:10, color:"#999", marginTop:2 }}>
                   → Fresh {calc.freshCompound} vs worn {allCars.find(c=>c.isUser)?.laps[lapIdx]?.compound}
                 </div>
               </div>
@@ -1580,8 +1580,8 @@ function StrategyComparison({ stints, trackKey, altStints, altLabel }) {
   return (
     <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:6 }}>
       {[["YOUR STRATEGY", stints], [altLabel || "RIVAL STRATEGY", altStints]].map(([label, sts], si) => (
-        <div key={si} style={{ background:"#0a0a0a", border:"1px solid #141414", padding:"8px 10px" }}>
-          <div style={{ fontSize:11, color:"#444", letterSpacing:".2em", marginBottom:6 }}>{label}</div>
+        <div key={si} style={{ background:"#222222", border:"1px solid #2e2e2e", padding:"8px 10px" }}>
+          <div style={{ fontSize:11, color:"#bbb", letterSpacing:".2em", marginBottom:6 }}>{label}</div>
           <div style={{ display:"flex", height:6, borderRadius:2, overflow:"hidden", gap:1 }}>
             {sts.map((s, i) => {
               const C = COMPOUNDS[s.compound] || COMPOUNDS.C3;
@@ -1590,13 +1590,13 @@ function StrategyComparison({ stints, trackKey, altStints, altLabel }) {
           </div>
           <div style={{ marginTop:6 }}>
             {sts.map((s,i)=>{ const C=COMPOUNDS[s.compound]||COMPOUNDS.C3; return (
-              <div key={i} style={{ fontSize:12, color:"#555", display:"flex", justifyContent:"space-between", marginTop:2 }}>
+              <div key={i} style={{ fontSize:12, color:"#aaa", display:"flex", justifyContent:"space-between", marginTop:2 }}>
               <span style={{ color:C.col }}>{s.compound} {relName(s.compound, trackKey)}</span>
                 <span>{s.laps} laps</span>
               </div>
             );})}
           </div>
-          <div style={{ fontSize:12, color:"#333", marginTop:4 }}>{sts.length-1} stop{sts.length>2?"s":""}</div>
+          <div style={{ fontSize:12, color:"#999", marginTop:4 }}>{sts.length-1} stop{sts.length>2?"s":""}</div>
         </div>
       ))}
     </div>
@@ -1637,7 +1637,7 @@ function StintEditor({ stints, trackKey, onUpdate, total }) {
         return (
           <div key={idx}>
             <div style={{
-              background:"#090909",
+              background:"#1e1e1e",
               border:`1px solid ${overLife?"#e1060033":nearLimit?"#FFD70033":"#1a1a1a"}`,
               borderBottom: isLast ? undefined : "none",
               padding:"13px 13px 11px",
@@ -1646,8 +1646,8 @@ function StintEditor({ stints, trackKey, onUpdate, total }) {
                 <div style={{ display:"flex", alignItems:"center", gap:9 }}>
                   <div style={{ width:4, height:28, borderRadius:2, background:C.col, flexShrink:0 }}/>
                   <div>
-                    <div style={{ fontSize:15, fontWeight:900, color:"#ccc", letterSpacing:".06em", lineHeight:1 }}>STINT {idx+1}</div>
-                    <div style={{ fontSize:12, color:"#333", marginTop:3 }}>Laps {stintStart} – {stintEnd}</div>
+                    <div style={{ fontSize:15, fontWeight:900, color:"#f0f0f0", letterSpacing:".06em", lineHeight:1 }}>STINT {idx+1}</div>
+                    <div style={{ fontSize:12, color:"#999", marginTop:3 }}>Laps {stintStart} – {stintEnd}</div>
                   </div>
                 </div>
                 <div style={{ display:"flex", alignItems:"center", gap:10 }}>
@@ -1655,7 +1655,7 @@ function StintEditor({ stints, trackKey, onUpdate, total }) {
                     <div style={{ fontSize:12, fontWeight:700, color:overLife?"#e10600":nearLimit?"#FFD700":"#555" }}>
                       {s.laps} / {C.maxLife} laps
                     </div>
-                    <div style={{ width:72, height:4, background:"#111", borderRadius:2, overflow:"hidden", marginTop:4 }}>
+                    <div style={{ width:72, height:4, background:"#333", borderRadius:2, overflow:"hidden", marginTop:4 }}>
                       <div style={{ width:`${wearPct}%`, height:"100%", borderRadius:2, background:overLife?"#e10600":nearLimit?"#FFD700":"#39B54A", transition:"width .3s, background .3s" }}/>
                     </div>
                     {overLife && <div style={{ fontSize:10, color:"#e10600", fontWeight:700, marginTop:2 }}>⚠ OVER LIMIT</div>}
@@ -1663,7 +1663,7 @@ function StintEditor({ stints, trackKey, onUpdate, total }) {
                   </div>
                   {stints.length > 1 && (
                     <button onClick={() => onUpdate(removePitStop(stints, idx, total))}
-                      style={{ background:"transparent", border:"1px solid #1e1e1e", color:"#333", cursor:"pointer", fontSize:13, lineHeight:1, padding:"5px 9px", transition:"all .12s", borderRadius:2 }}
+                      style={{ background:"transparent", border:"1px solid #2e2e2e", color:"#999", cursor:"pointer", fontSize:13, lineHeight:1, padding:"5px 9px", transition:"all .12s", borderRadius:2 }}
                       onMouseOver={e=>{ e.currentTarget.style.borderColor="#e10600"; e.currentTarget.style.color="#e10600"; }}
                       onMouseOut={e=>{ e.currentTarget.style.borderColor="#1e1e1e"; e.currentTarget.style.color="#333"; }}>✕</button>
                   )}
@@ -1671,7 +1671,7 @@ function StintEditor({ stints, trackKey, onUpdate, total }) {
               </div>
 
               <div style={{ marginBottom:8 }}>
-                <div style={{ fontSize:10, color:"#252525", letterSpacing:".18em", textTransform:"uppercase", marginBottom:6 }}>DRY COMPOUNDS</div>
+                <div style={{ fontSize:10, color:"#888", letterSpacing:".18em", textTransform:"uppercase", marginBottom:6 }}>DRY COMPOUNDS</div>
                 <div style={{ display:"flex", gap:5 }}>
                   {dryCompounds.map((ck, ri) => {
                     const Cc = COMPOUNDS[ck] || COMPOUNDS.C3;
@@ -1696,7 +1696,7 @@ function StintEditor({ stints, trackKey, onUpdate, total }) {
               </div>
 
               <div>
-                <div style={{ fontSize:10, color:"#252525", letterSpacing:".18em", textTransform:"uppercase", marginBottom:6 }}>WET WEATHER</div>
+                <div style={{ fontSize:10, color:"#888", letterSpacing:".18em", textTransform:"uppercase", marginBottom:6 }}>WET WEATHER</div>
                 <div style={{ display:"flex", gap:5 }}>
                   {wetCompounds.map(({ key:ck, short }) => {
                     const Cc = COMPOUNDS[ck];
@@ -1722,7 +1722,7 @@ function StintEditor({ stints, trackKey, onUpdate, total }) {
             </div>
 
             {!isLast && (
-              <div style={{ background:"#060606", border:"1px solid #1a1a1a", borderTop:"none", padding:"11px 13px 13px" }}>
+              <div style={{ background:"#1a1a1a", border:"1px solid #2e2e2e", borderTop:"none", padding:"11px 13px 13px" }}>
                 <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:9 }}>
                   <div style={{ display:"flex", alignItems:"center", gap:8 }}>
                     <div style={{ width:11, height:11, borderRadius:"50%", background:"#e10600", boxShadow:"0 0 9px #e1060099", flexShrink:0 }}/>
@@ -1730,7 +1730,7 @@ function StintEditor({ stints, trackKey, onUpdate, total }) {
                   </div>
                   <div style={{ textAlign:"right" }}>
                     <div style={{ fontSize:24, fontWeight:900, color:"#fff", lineHeight:1 }}>LAP {cumLaps[idx]}</div>
-                    <div style={{ fontSize:11, color:"#2a2a2a", marginTop:1 }}>of {total} laps</div>
+                    <div style={{ fontSize:11, color:"#888", marginTop:1 }}>of {total} laps</div>
                   </div>
                 </div>
 
@@ -1742,15 +1742,15 @@ function StintEditor({ stints, trackKey, onUpdate, total }) {
                   />
                   <div style={{ position:"absolute", bottom:2, left:0, right:0, display:"flex", justifyContent:"space-between", pointerEvents:"none" }}>
                     {[sliderMin, Math.round((sliderMin+sliderMax)/2), sliderMax].map(v => (
-                      <div key={v} style={{ fontSize:10, color:"#252525", fontWeight:700 }}>L{v}</div>
+                      <div key={v} style={{ fontSize:10, color:"#888", fontWeight:700 }}>L{v}</div>
                     ))}
                   </div>
                 </div>
 
                 <div style={{ display:"flex", gap:5 }}>
                   {[["OPEN",`L${sliderMin}`,"#1e1e1e","#2a2a2a"],["PIT LAP",`L${cumLaps[idx]}`,"#e1060022","#e10600"],["CLOSE",`L${sliderMax}`,"#1e1e1e","#2a2a2a"]].map(([lbl,val,bg,col])=>(
-                    <div key={lbl} style={{ flex:1, background:"#0a0a0a", border:`1px solid ${bg}`, padding:"6px 8px", textAlign:"center", borderRadius:2 }}>
-                      <div style={{ fontSize:12, color:"#252525", letterSpacing:".12em" }}>{lbl}</div>
+                    <div key={lbl} style={{ flex:1, background:"#222222", border:`1px solid ${bg}`, padding:"6px 8px", textAlign:"center", borderRadius:2 }}>
+                      <div style={{ fontSize:12, color:"#888", letterSpacing:".12em" }}>{lbl}</div>
                       <div style={{ fontSize:14, fontWeight:900, color:col, marginTop:2 }}>{val}</div>
                     </div>
                   ))}
@@ -1765,7 +1765,7 @@ function StintEditor({ stints, trackKey, onUpdate, total }) {
         <button onClick={() => onUpdate(addPitStop(stints, total, trackKey))}
           style={{
             width:"100%", padding:"12px", background:"transparent", border:"1px dashed #1e1e1e",
-            color:"#282828", cursor:"pointer", fontFamily:"'Barlow Condensed',sans-serif",
+            color:"#888", cursor:"pointer", fontFamily:"'Barlow Condensed',sans-serif",
             fontSize:12, fontWeight:700, letterSpacing:".2em", textTransform:"uppercase",
             marginTop:6, transition:"all .15s", borderRadius:2,
           }}
@@ -1797,10 +1797,10 @@ function LapChart({ cars, scrubLap }) {
     const xS=i=>P.l+(i/(n-1||1))*(W-P.l-P.r);
     const yS=v=>P.t+(1-(v-lo)/(hi-lo))*(H-P.t-P.b);
 
-    ctx.strokeStyle="rgba(255,255,255,.04)"; ctx.lineWidth=1;
+    ctx.strokeStyle="rgba(255,255,255,.08)"; ctx.lineWidth=1;
     for (let v=Math.ceil(lo);v<=hi;v+=5) {
       ctx.beginPath(); ctx.moveTo(P.l,yS(v)); ctx.lineTo(W-P.r,yS(v)); ctx.stroke();
-      ctx.fillStyle="rgba(255,255,255,.15)"; ctx.font="6px monospace";
+      ctx.fillStyle="rgba(255,255,255,.55)"; ctx.font="6px monospace";
       ctx.textAlign="right"; ctx.fillText(fmtLap(v),P.l-2,yS(v)+2);
     }
 
@@ -1887,12 +1887,12 @@ function ChampionshipPanel({ raceResult, selDriver }) {
       {/* User summary */}
       {userStanding && (
         <div style={{ padding:"12px 14px", background:`${teamCol}0c`, border:`1px solid ${teamCol}22`, marginBottom:10 }}>
-          <div style={{ fontSize:10, letterSpacing:".2em", color:"#333", textTransform:"uppercase", marginBottom:8 }}>CHAMPIONSHIP IMPACT</div>
+          <div style={{ fontSize:10, letterSpacing:".2em", color:"#999", textTransform:"uppercase", marginBottom:8 }}>CHAMPIONSHIP IMPACT</div>
           <div style={{ display:"flex", alignItems:"center", gap:12, marginBottom:8 }}>
             <div style={{ textAlign:"center" }}>
-              <div style={{ fontSize:11, color:"#333", letterSpacing:".1em" }}>BEFORE</div>
-              <div style={{ fontSize:28, fontWeight:900, color:"#555", lineHeight:1 }}>P{userStanding.posBefore}</div>
-              <div style={{ fontSize:11, color:"#444" }}>{userStanding.ptsBefore} pts</div>
+              <div style={{ fontSize:11, color:"#999", letterSpacing:".1em" }}>BEFORE</div>
+              <div style={{ fontSize:28, fontWeight:900, color:"#bbb", lineHeight:1 }}>P{userStanding.posBefore}</div>
+              <div style={{ fontSize:11, color:"#bbb" }}>{userStanding.ptsBefore} pts</div>
             </div>
             <div style={{ flex:1, textAlign:"center" }}>
               <div style={{ fontSize:posChange > 0 ? 28 : posChange < 0 ? 28 : 18, fontWeight:900,
@@ -1904,13 +1904,13 @@ function ChampionshipPanel({ raceResult, selDriver }) {
               </div>
             </div>
             <div style={{ textAlign:"center" }}>
-              <div style={{ fontSize:11, color:"#333", letterSpacing:".1em" }}>AFTER</div>
+              <div style={{ fontSize:11, color:"#999", letterSpacing:".1em" }}>AFTER</div>
               <div style={{ fontSize:28, fontWeight:900, color:teamCol, lineHeight:1 }}>P{userStanding.posAfter}</div>
               <div style={{ fontSize:11, color:teamCol+"aa" }}>{userStanding.ptsAfter} pts</div>
             </div>
           </div>
           {leader.id !== selDriver && (
-            <div style={{ fontSize:11, color:"#333", textAlign:"center" }}>
+            <div style={{ fontSize:11, color:"#999", textAlign:"center" }}>
               Gap to <span style={{ color: TEAMS[DRIVERS.find(d=>d.id===leader.id)?.team]?.col || "#fff" }}>{leader.id}</span>
               : <span style={{ color:"#aaa", fontWeight:700 }}>-{leader.ptsAfter - userStanding.ptsAfter} pts</span>
             </div>
@@ -1922,7 +1922,7 @@ function ChampionshipPanel({ raceResult, selDriver }) {
       )}
 
       {/* Top 8 standings */}
-      <div style={{ fontSize:10, letterSpacing:".2em", color:"#333", textTransform:"uppercase", marginBottom:6 }}>DRIVERS' STANDINGS AFTER RACE</div>
+      <div style={{ fontSize:10, letterSpacing:".2em", color:"#999", textTransform:"uppercase", marginBottom:6 }}>DRIVERS' STANDINGS AFTER RACE</div>
       {standings.slice(0, 8).map((s, i) => {
         const isUser = s.id === selDriver;
         const col = TEAMS[s.team]?.col || "#888";
@@ -1936,7 +1936,7 @@ function ChampionshipPanel({ raceResult, selDriver }) {
             <div style={{ fontSize:12, fontWeight:900, color: i===0?"#FFD700":i<=2?"#888":"#333", minWidth:22 }}>P{i+1}</div>
             <div style={{ width:3, height:14, borderRadius:1, background:col, flexShrink:0 }}/>
             <div style={{ flex:1, fontSize:11, fontWeight:700, color:isUser?"#ccc":"#444" }}>{s.name.split(" ").pop()}</div>
-            <div style={{ fontSize:10, color:"#555", minWidth:22, textAlign:"center" }}>
+            <div style={{ fontSize:10, color:"#bbb", minWidth:22, textAlign:"center" }}>
               {s.racePoints > 0 && <span style={{ color: i===0?"#FFD700":col+"cc" }}>+{s.racePoints}</span>}
             </div>
             <div style={{ fontSize:12, fontWeight:900, color:isUser?col:"#444", minWidth:42, textAlign:"right" }}>{s.ptsAfter}</div>
@@ -2079,7 +2079,7 @@ function GapEvolutionChart({ allCars }) {
 function DebriefTab({ allCars, raceResult, selDriver, trackKey, normStints, LAPS, pushMode }) {
   const T = TRACKS[trackKey];
   if (!allCars.length || !raceResult) return (
-    <div style={{ padding:"40px 0", textAlign:"center", fontSize:12, color:"#1e1e1e", fontStyle:"italic" }}>
+    <div style={{ padding:"40px 0", textAlign:"center", fontSize:12, color:"#777", fontStyle:"italic" }}>
       Run a race first to see the debrief.
     </div>
   );
@@ -2117,8 +2117,8 @@ function DebriefTab({ allCars, raceResult, selDriver, trackKey, normStints, LAPS
   }
 
   const userStints = userCar ? getStintStats(userCar) : [];
-  const LBL2 = { fontSize:10, letterSpacing:".2em", textTransform:"uppercase", color:"#333" };
-  const CARD2 = { background:"#080808", border:"1px solid #111", padding:14, marginBottom:8 };
+  const LBL2 = { fontSize:10, letterSpacing:".2em", textTransform:"uppercase", color:"#999" };
+  const CARD2 = { background:"#1c1c1c", border:"1px solid #2e2e2e", padding:14, marginBottom:8 };
   const teamCol = TEAMS[DRIVERS.find(d=>d.id===selDriver)?.team]?.col || "#FF8000";
 
   return (
@@ -2128,7 +2128,7 @@ function DebriefTab({ allCars, raceResult, selDriver, trackKey, normStints, LAPS
         <div style={CARD2}>
           <div style={{...LBL2, marginBottom:8}}>GAP EVOLUTION — ALL LAPS</div>
           <GapEvolutionChart allCars={allCars} LAPS={LAPS}/>
-          <div style={{ marginTop:6, fontSize:10, color:"#1e1e1e", fontStyle:"italic" }}>
+          <div style={{ marginTop:6, fontSize:10, color:"#777", fontStyle:"italic" }}>
             Leader = zero line · SC/VSC zones highlighted
           </div>
         </div>
@@ -2150,12 +2150,12 @@ function DebriefTab({ allCars, raceResult, selDriver, trackKey, normStints, LAPS
                 <div style={{ fontSize:14, fontWeight:900, color:verdict.col, letterSpacing:".06em", marginBottom:6 }}>
                   {verdict.icon} {verdict.title}
                 </div>
-                <div style={{ fontSize:12, color:"#555", lineHeight:1.6 }}>{verdict.msg}</div>
+                <div style={{ fontSize:12, color:"#bbb", lineHeight:1.6 }}>{verdict.msg}</div>
                 <div style={{ marginTop:8, display:"flex", gap:8 }}>
                   {normStints.map((s,i)=>{ const C=COMPOUNDS[s.compound]||COMPOUNDS.C3; return (
                     <div key={i} style={{ display:"flex",alignItems:"center",gap:4 }}>
                       <div style={{ width:7,height:7,borderRadius:"50%",background:C.col }}/>
-                      <span style={{ fontSize:10,color:"#444" }}>{s.compound}·{s.laps}L</span>
+                      <span style={{ fontSize:10,color:"#bbb" }}>{s.compound}·{s.laps}L</span>
                     </div>
                   );})}
                 </div>
@@ -2174,12 +2174,12 @@ function DebriefTab({ allCars, raceResult, selDriver, trackKey, normStints, LAPS
             {userStints.map((s, i) => {
               const C = COMPOUNDS[s.compound] || COMPOUNDS.C3;
               return (
-                <div key={i} style={{ marginBottom:i < userStints.length-1 ? 8 : 0, padding:"8px 10px", background:"#050505", border:"1px solid #0d0d0d" }}>
+                <div key={i} style={{ marginBottom:i < userStints.length-1 ? 8 : 0, padding:"8px 10px", background:"#1a1a1a", border:"1px solid #2a2a2a" }}>
                   <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom:5 }}>
                     <div style={{ width:3, height:20, borderRadius:1, background:C.col, flexShrink:0 }}/>
                     <div style={{ flex:1 }}>
                       <span style={{ fontSize:12, fontWeight:900, color:C.col }}>{s.compound} {relName(s.compound, trackKey)}</span>
-                      <span style={{ fontSize:11, color:"#333", marginLeft:6 }}>L{s.startLap}–L{s.endLap} ({s.laps} laps)</span>
+                      <span style={{ fontSize:11, color:"#999", marginLeft:6 }}>L{s.startLap}–L{s.endLap} ({s.laps} laps)</span>
                     </div>
                   </div>
                   <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr 1fr", gap:4 }}>
@@ -2188,8 +2188,8 @@ function DebriefTab({ allCars, raceResult, selDriver, trackKey, normStints, LAPS
                       ["BEST LAP", fmtLap(s.minLap), "#39B54A"],
                       ["DEG/LAP", s.avgLap && s.minLap ? `+${(s.avgLap - s.minLap).toFixed(2)}s` : "—", "#FFD700"],
                     ].map(([k,v,c])=>(
-                      <div key={k} style={{ background:"#090909", padding:"4px 6px", border:"1px solid #0d0d0d" }}>
-                        <div style={{ fontSize:8, color:"#252525", letterSpacing:".15em" }}>{k}</div>
+                      <div key={k} style={{ background:"#1e1e1e", padding:"4px 6px", border:"1px solid #2a2a2a" }}>
+                        <div style={{ fontSize:8, color:"#888", letterSpacing:".15em" }}>{k}</div>
                         <div style={{ fontSize:12, fontWeight:900, color:c, marginTop:1 }}>{v}</div>
                       </div>
                     ))}
@@ -2456,22 +2456,22 @@ export default function F1StrategyLab() {
   const uniqueKeys = new Set(normStints.map(s => s.compound));
   const invalidStrategy = weather==="dry" && normStints.length > 1 && uniqueKeys.size < 2;
 
-  const BG   = "#030303";
-  const CARD = { background:"#080808", border:"1px solid #111", padding:14, marginBottom:2 };
-  const LBL  = { fontSize:10, letterSpacing:".2em", textTransform:"uppercase", color:"#333" };
+  const BG   = "#141414";
+  const CARD = { background:"#1c1c1c", border:"1px solid #2e2e2e", padding:14, marginBottom:2 };
+  const LBL  = { fontSize:10, letterSpacing:".2em", textTransform:"uppercase", color:"#999" };
   const ACC  = "#FF8000";
 
   const tabStyle = (active) => ({
     padding:"8px 14px", background:"transparent",
     border:"none", borderBottom:`2px solid ${active?ACC:"transparent"}`,
-    color:active?"#ddd":"#2a2a2a", cursor:"pointer",
+    color:active?"#fff":"#777", cursor:"pointer",
     fontFamily:"'Barlow Condensed',sans-serif", fontSize:13, fontWeight:700,
     letterSpacing:".2em", textTransform:"uppercase", transition:"all .15s",
   });
   const subTabStyle = (active, col=ACC) => ({
     padding:"5px 12px", background:active?`${col}14`:"transparent",
     border:`1px solid ${active?col:"#141414"}`,
-    color:active?col:"#333", cursor:"pointer",
+    color:active?col:"#999", cursor:"pointer",
     fontFamily:"'Barlow Condensed',sans-serif", fontSize:13, fontWeight:700,
     letterSpacing:".15em", textTransform:"uppercase", transition:"all .12s",
   });
@@ -2482,14 +2482,14 @@ export default function F1StrategyLab() {
         @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;600;700;900&display=swap');
         *{box-sizing:border-box;margin:0;padding:0;}
         ::-webkit-scrollbar{width:3px;height:3px}
-        ::-webkit-scrollbar-track{background:#050505}
-        ::-webkit-scrollbar-thumb{background:#1a1a1a}
+        ::-webkit-scrollbar-track{background:#141414}
+        ::-webkit-scrollbar-thumb{background:#3a3a3a}
         @keyframes fadeInDown{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:translateY(0)}}
         @keyframes finishPulse{0%,100%{box-shadow:0 0 20px rgba(255,215,0,.15)}50%{box-shadow:0 0 80px rgba(255,215,0,.55)}}
         @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
         @keyframes slideIn{from{opacity:0;transform:translateX(-8px)}to{opacity:1;transform:translateX(0)}}
-        select option{background:#0a0a0a;color:#ccc;}
-        select optgroup{color:#333;font-style:normal;}
+        select option{background:#1c1c1c;color:#ddd;}
+        select optgroup{color:#999;font-style:normal;}
         .runbtn{
           width:100%;padding:14px;background:${ACC};border:none;color:#000;cursor:pointer;
           font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:900;
@@ -2497,8 +2497,8 @@ export default function F1StrategyLab() {
           position:relative;overflow:hidden;
         }
         .runbtn:hover{transform:translateY(-1px);box-shadow:0 4px 24px ${ACC}44;}
-        .runbtn:disabled{background:#111;color:#2a2a2a;cursor:default;transform:none;box-shadow:none;}
-        input[type=range]{-webkit-appearance:none;height:2px;background:#161616;outline:none;width:100%;}
+        .runbtn:disabled{background:#222;color:#666;cursor:default;transform:none;box-shadow:none;}
+        input[type=range]{-webkit-appearance:none;height:2px;background:#333;outline:none;width:100%;}
         input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:12px;height:12px;background:${ACC};border-radius:50%;cursor:pointer;box-shadow:0 0 6px ${ACC}55;}
         .card-hover{transition:border-color .15s;}
         .card-hover:hover{border-color:#222!important;}
@@ -2525,16 +2525,16 @@ export default function F1StrategyLab() {
 
       {/* HEADER */}
       <div style={{
-        borderBottom:"1px solid #0e0e0e", padding:"10px 20px 10px",
+        borderBottom:"1px solid #2a2a2a", padding:"10px 20px 10px",
         display:"flex", alignItems:"center", justifyContent:"space-between",
-        background:"linear-gradient(180deg, #0a0a0a 0%, #030303 100%)",
+        background:"linear-gradient(180deg, #1e1e1e 0%, #141414 100%)",
       }}>
         <div>
           <div style={{ display:"flex", alignItems:"baseline", gap:10 }}>
             <span style={{ fontSize:24, fontWeight:900, letterSpacing:".06em", color:"#fff", lineHeight:1 }}>F1 STRATEGY LAB</span>
             <span style={{ fontSize:13, fontWeight:900, color:ACC, letterSpacing:".1em" }}>2025</span>
           </div>
-          <div style={{ fontSize:10, color:"#222", letterSpacing:".25em", textTransform:"uppercase", marginTop:2 }}>
+          <div style={{ fontSize:10, color:"#888", letterSpacing:".25em", textTransform:"uppercase", marginTop:2 }}>
             THERMAL TYRES · SC BUNCHING · REACTIVE RIVALS · DNF MODEL · LAP 1 CHAOS · REAL OVERTAKE PHYSICS
           </div>
         </div>
@@ -2545,16 +2545,16 @@ export default function F1StrategyLab() {
       </div>
 
       {/* TAB BAR */}
-      <div style={{ borderBottom:"1px solid #0e0e0e", paddingLeft:20, display:"flex", gap:0, background:"#040404" }} className="tab-bar">
+      <div style={{ borderBottom:"1px solid #2a2a2a", paddingLeft:20, display:"flex", gap:0, background:"#1a1a1a" }} className="tab-bar">
         {[["build","BUILD"],["race","BROADCAST"],["result","RESULTS"],["debrief","DEBRIEF"],["lb","LEADERBOARD"]].map(([v,l])=>(
           <button key={v} style={tabStyle(tab===v)} onClick={()=>setTab(v)}>{l}</button>
         ))}
         <div style={{ flex:1 }}/>
         <div style={{ display:"flex", alignItems:"center", paddingRight:20, gap:8 }} className="header-right">
           <div style={{ width:8, height:8, borderRadius:"50%", background:teamData.col, flexShrink:0 }}/>
-          <span style={{ fontSize:12, color:"#333", letterSpacing:".1em" }}>{driverData.id}</span>
-          <span style={{ fontSize:12, color:"#1a1a1a" }}>·</span>
-          <span style={{ fontSize:12, color:"#333", letterSpacing:".1em" }}>{T.name.toUpperCase()}</span>
+          <span style={{ fontSize:12, color:"#999", letterSpacing:".1em" }}>{driverData.id}</span>
+          <span style={{ fontSize:12, color:"#666" }}>·</span>
+          <span style={{ fontSize:12, color:"#999", letterSpacing:".1em" }}>{T.name.toUpperCase()}</span>
         </div>
       </div>
 
@@ -2568,8 +2568,8 @@ export default function F1StrategyLab() {
               <div style={{...CARD}} className="card-hover">
                 <div style={{...LBL,marginBottom:8}}>DRIVER — 2025 LINEUP</div>
                 <select value={selDriver} onChange={e=>setSelDriver(e.target.value)} style={{
-                  width:"100%",padding:"9px 10px",background:"#0d0d0d",border:"1px solid #161616",
-                  color:"#ccc",cursor:"pointer",fontFamily:"'Barlow Condensed',sans-serif",
+                  width:"100%",padding:"9px 10px",background:"#1e1e1e",border:"1px solid #2e2e2e",
+                  color:"#e0e0e0",cursor:"pointer",fontFamily:"'Barlow Condensed',sans-serif",
                   fontSize:13,fontWeight:700,outline:"none",appearance:"none",
                 }}>
                   {Object.entries(TEAMS).map(([tid,team])=>(
@@ -2584,17 +2584,17 @@ export default function F1StrategyLab() {
                   <div style={{ width:3, alignSelf:"stretch", background:teamData.col, borderRadius:1, flexShrink:0 }}/>
                   <div style={{ flex:1 }}>
                     <div style={{ fontSize:16, fontWeight:900, color:teamData.col, lineHeight:1.1 }}>{driverData.name}</div>
-                    <div style={{ fontSize:11, color:"#333", marginTop:2 }}>{teamData.name} · #{driverData.num} · {teamData.engine}</div>
+                    <div style={{ fontSize:11, color:"#999", marginTop:2 }}>{teamData.name} · #{driverData.num} · {teamData.engine}</div>
                     <div style={{ marginTop:5, display:"flex", gap:8 }}>
                       <div style={{ flex:1 }}>
-                        <div style={{ fontSize:10, color:"#2a2a2a", letterSpacing:".12em" }}>TYRE MGMT</div>
-                        <div style={{ height:3, background:"#111", borderRadius:1, marginTop:2, overflow:"hidden" }}>
+                        <div style={{ fontSize:10, color:"#888", letterSpacing:".12em" }}>TYRE MGMT</div>
+                        <div style={{ height:3, background:"#333", borderRadius:1, marginTop:2, overflow:"hidden" }}>
                           <div style={{ width:`${Math.max(5,Math.min(100,(2-driverData.tyreMgmt)*100))}%`, height:"100%", background:driverData.tyreMgmt<1?"#39B54A":"#e10600" }}/>
                         </div>
                       </div>
                       <div style={{ flex:1 }}>
-                        <div style={{ fontSize:10, color:"#2a2a2a", letterSpacing:".12em" }}>RACE PACE</div>
-                        <div style={{ height:3, background:"#111", borderRadius:1, marginTop:2, overflow:"hidden" }}>
+                        <div style={{ fontSize:10, color:"#888", letterSpacing:".12em" }}>RACE PACE</div>
+                        <div style={{ height:3, background:"#333", borderRadius:1, marginTop:2, overflow:"hidden" }}>
                           <div style={{ width:`${Math.max(5,Math.min(100,100-(teamData.racePace/3)*100))}%`, height:"100%", background:ACC }}/>
                         </div>
                       </div>
@@ -2638,7 +2638,7 @@ export default function F1StrategyLab() {
                     </>
                   )}
                   {weatherChangeLap === 0 && (
-                    <div style={{ fontSize:11, color:"#1a1a1a" }}>No mid-race weather change</div>
+                    <div style={{ fontSize:11, color:"#666" }}>No mid-race weather change</div>
                   )}
                 </div>
 
@@ -2656,7 +2656,7 @@ export default function F1StrategyLab() {
                       }}>{l}</button>
                     ))}
                   </div>
-                  <div style={{ fontSize:11, color:"#1e1e1e", marginTop:4 }}>
+                  <div style={{ fontSize:11, color:"#777", marginTop:4 }}>
                     {pushMode ? "Push: faster but +30% wear, more heat damage" : "Save: −45% wear, tyres last longer, less heat"}
                   </div>
                 </div>
@@ -2670,13 +2670,13 @@ export default function F1StrategyLab() {
                 <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:6 }}>
                   <div style={{...LBL}}>RACE SEED — {raceSeed}</div>
                   <button onClick={()=>setRaceSeed_(s => (s % 20) + 1)} style={{
-                    padding:"3px 10px", background:"transparent", border:"1px solid #1e1e1e",
-                    color:"#333", cursor:"pointer", fontFamily:"'Barlow Condensed',sans-serif",
+                    padding:"3px 10px", background:"transparent", border:"1px solid #2e2e2e",
+                    color:"#999", cursor:"pointer", fontFamily:"'Barlow Condensed',sans-serif",
                     fontSize:10, fontWeight:700, letterSpacing:".1em",
                   }}>REROLL</button>
                 </div>
                 <input type="range" min={1} max={20} value={raceSeed} onChange={e=>setRaceSeed_(+e.target.value)}/>
-                <div style={{ fontSize:11, color:"#1e1e1e", marginTop:4 }}>
+                <div style={{ fontSize:11, color:"#777", marginTop:4 }}>
                   Different seed = different DNFs, overtakes &amp; battles
                 </div>
               </div>
@@ -2698,15 +2698,15 @@ export default function F1StrategyLab() {
                       {invalidStrategy && <div style={{ fontSize:11, color:"#e10600", fontWeight:700 }}>⚠ USE 2 COMPOUNDS</div>}
                     </div>
                     <StintEditor stints={normStints} trackKey={trackKey} onUpdate={setMyStints} total={LAPS}/>
-                    <div style={{ marginTop:10, padding:"8px 10px", background:"#050505", border:"1px solid #0e0e0e" }}>
+                    <div style={{ marginTop:10, padding:"8px 10px", background:"#1a1a1a", border:"1px solid #2a2a2a" }}>
                       <div style={{ display:"flex", gap:10, flexWrap:"wrap" }}>
                         {normStints.map((s,i)=>{ const C=COMPOUNDS[s.compound]||COMPOUNDS.C3; return (
                           <div key={i} style={{ display:"flex", alignItems:"center", gap:5 }}>
                             <div style={{ width:8,height:8,borderRadius:"50%",background:C.col }}/>
-                            <span style={{ fontSize:10,color:"#555" }}>{s.compound} · {s.laps}L</span>
+                            <span style={{ fontSize:10,color:"#bbb" }}>{s.compound} · {s.laps}L</span>
                           </div>
                         );})}
-                        <span style={{ fontSize:12,color:"#333",marginLeft:"auto" }}>
+                        <span style={{ fontSize:12,color:"#999",marginLeft:"auto" }}>
                           {normStints.length-1} stop{normStints.length>2?"s":""} · ~{((normStints.length-1)*T.pitLoss).toFixed(0)}s pit time
                         </span>
                       </div>
@@ -2748,9 +2748,9 @@ export default function F1StrategyLab() {
                       ["COMPOUNDS",T.compound.join("/")],
                       ["EVOLUTION",`${(T.evolution*100).toFixed(1)}s`],
                     ].map(([k,v])=>(
-                      <div key={k} style={{ background:"#050505",border:"1px solid #0e0e0e",padding:"6px 8px" }}>
-                        <div style={{ fontSize:10,color:"#2a2a2a",letterSpacing:".15em" }}>{k}</div>
-                        <div style={{ fontSize:12,fontWeight:900,color:"#666",marginTop:2 }}>{v}</div>
+                      <div key={k} style={{ background:"#1a1a1a",border:"1px solid #2a2a2a",padding:"6px 8px" }}>
+                        <div style={{ fontSize:10,color:"#888",letterSpacing:".15em" }}>{k}</div>
+                        <div style={{ fontSize:12,fontWeight:900,color:"#bbb",marginTop:2 }}>{v}</div>
                       </div>
                     ))}
                   </div>
@@ -2772,8 +2772,8 @@ export default function F1StrategyLab() {
                           <div style={{ fontSize:11,fontWeight:900,color:i===0?"#FFD700":i<=2?"#999":i<=9?"#444":"#222",minWidth:22 }}>P{i+1}</div>
                           <div style={{ width:3,height:16,borderRadius:1,background:g.team.col,flexShrink:0 }}/>
                           <div style={{ flex:1,fontSize:11,fontWeight:700,color:isUser?"#fff":"#555" }}>{g.driver.name}</div>
-                          <div style={{ fontSize:11,color:"#2a2a2a" }}>{g.team.short}</div>
-                          <div style={{ fontSize:12,color:"#333",minWidth:60,textAlign:"right" }}>
+                          <div style={{ fontSize:11,color:"#888" }}>{g.team.short}</div>
+                          <div style={{ fontSize:12,color:"#999",minWidth:60,textAlign:"right" }}>
                             {i===0?"POLE":`+${(g.qualiTime-gridOrder[0].qualiTime).toFixed(3)}s`}
                           </div>
                         </div>
@@ -2804,7 +2804,7 @@ export default function F1StrategyLab() {
                 <RaceMap trackKey={trackKey} simData={simData} showLabels={showLabels} finishZoom={finishZoom} scrubLap={scrubLap}/>
               )}
               {raceSubTab==="laps" && allCars.length > 0 && (
-                <div style={{ background:"#030303",border:"1px solid #111",borderRadius:4,padding:12 }}>
+                <div style={{ background:"#141414",border:"1px solid #2e2e2e",borderRadius:4,padding:12 }}>
                   <div style={{...LBL,marginBottom:8}}>LAP TIME TRACE — Compound segments · Pit markers</div>
                   <LapChart cars={allCars.slice(0,6)} scrubLap={scrubLap}/>
                   <div style={{ marginTop:8, display:"flex", gap:10, flexWrap:"wrap" }}>
@@ -2818,7 +2818,7 @@ export default function F1StrategyLab() {
                 </div>
               )}
               {raceSubTab==="gaps" && allCars.length > 0 && (
-                <div style={{ background:"#030303",border:"1px solid #111",borderRadius:4,padding:12 }}>
+                <div style={{ background:"#141414",border:"1px solid #2e2e2e",borderRadius:4,padding:12 }}>
                   <div style={{...LBL,marginBottom:8}}>GAP TO YOU (SECONDS)</div>
                   <GapChart allCars={allCars} scrubLap={scrubLap}/>
                 </div>
@@ -2839,7 +2839,7 @@ export default function F1StrategyLab() {
                       <div style={{ fontSize:30,fontWeight:900,color:ACC,lineHeight:1 }}>
                         {curLap.isPit?"PIT":fmtLap(curLap.lapTime>200?curLap.lapTime-T.pitLoss:curLap.lapTime)}
                       </div>
-                      <div style={{ fontSize:11,color:"#222",marginTop:1 }}>LAST LAP</div>
+                      <div style={{ fontSize:11,color:"#888",marginTop:1 }}>LAST LAP</div>
                     </div>
                     <TyreGauge temp={curLap.tyreTemp||95} compound={curLap.compound}/>
                   </div>
@@ -2852,8 +2852,8 @@ export default function F1StrategyLab() {
                       ["DEG",     `+${curLap.degradation.toFixed(2)}s`,          curLap.degradation>1.5?"#e10600":"#555"],
                       ["HEAT DMG",curLap.heatDamage>0.1?`${(curLap.heatDamage*100).toFixed(0)}%`:"NONE", curLap.heatDamage>0.2?"#e10600":"#39B54A"],
                     ].map(([k,v,c])=>(
-                      <div key={k} style={{ background:"#0a0a0a",padding:"5px 7px",border:"1px solid #0d0d0d" }}>
-                        <div style={{ fontSize:6,color:"#222",letterSpacing:".2em",textTransform:"uppercase" }}>{k}</div>
+                      <div key={k} style={{ background:"#222222",padding:"5px 7px",border:"1px solid #2a2a2a" }}>
+                        <div style={{ fontSize:6,color:"#888",letterSpacing:".2em",textTransform:"uppercase" }}>{k}</div>
                         <div style={{ fontSize:13,fontWeight:900,color:c,marginTop:2,lineHeight:1 }}>{v}</div>
                       </div>
                     ))}
@@ -2871,11 +2871,11 @@ export default function F1StrategyLab() {
                   <button onClick={()=>setUndercutOpen(o=>!o)} style={{
                     display:"flex",alignItems:"center",justifyContent:"space-between",
                     width:"100%",padding:"10px 14px",background:"transparent",border:"none",
-                    color:"#333",cursor:"pointer",fontFamily:"'Barlow Condensed',sans-serif",
+                    color:"#bbb",cursor:"pointer",fontFamily:"'Barlow Condensed',sans-serif",
                     fontSize:10,fontWeight:700,letterSpacing:".2em",textTransform:"uppercase",
                   }}>
                     ⚡ UNDERCUT CALCULATOR
-                    <span style={{color:"#2a2a2a",fontSize:10}}>{undercutOpen?"▲":"▼"}</span>
+                    <span style={{color:"#888",fontSize:10}}>{undercutOpen?"▲":"▼"}</span>
                   </button>
                   {undercutOpen && (
                     <div style={{padding:"0 14px 14px"}}>
@@ -2915,8 +2915,8 @@ export default function F1StrategyLab() {
                         ["YOU SAVE",        `~${saving.toFixed(1)}s`, "#39B54A"],
                         ["TYRE WEAR",       `${wearPct}%`, wearPct > 50 ? "#e10600" : "#FFD700"],
                       ].map(([k,v,c])=>(
-                        <div key={k} style={{ background:"#0a0a0a", padding:"5px 8px", border:"1px solid #0d0d0d" }}>
-                          <div style={{ fontSize:8, color:"#252525", letterSpacing:".15em" }}>{k}</div>
+                        <div key={k} style={{ background:"#222222", padding:"5px 8px", border:"1px solid #2a2a2a" }}>
+                          <div style={{ fontSize:8, color:"#888", letterSpacing:".15em" }}>{k}</div>
                           <div style={{ fontSize:13, fontWeight:900, color:c, marginTop:1 }}>{v}</div>
                         </div>
                       ))}
@@ -2936,19 +2936,19 @@ export default function F1StrategyLab() {
                     <button onClick={()=>setCommsOpen(o=>!o)} style={{
                       display:"flex",alignItems:"center",justifyContent:"space-between",
                       width:"100%",padding:"10px 14px",background:"transparent",border:"none",
-                      color:"#333",cursor:"pointer",fontFamily:"'Barlow Condensed',sans-serif",
+                      color:"#999",cursor:"pointer",fontFamily:"'Barlow Condensed',sans-serif",
                       fontSize:10,fontWeight:700,letterSpacing:".2em",textTransform:"uppercase",
                     }}>
                       RACE COMMS
-                      <span style={{color:"#2a2a2a",fontSize:10}}>{commsOpen?"▲":"▼"}</span>
+                      <span style={{color:"#888",fontSize:10}}>{commsOpen?"▲":"▼"}</span>
                     </button>
                     {commsOpen && (
                       <div style={{padding:"0 14px 14px"}}>
-                        {events.length===0&&<div style={{ fontSize:12,color:"#1a1a1a",fontStyle:"italic" }}>Waiting for race start…</div>}
+                        {events.length===0&&<div style={{ fontSize:12,color:"#666",fontStyle:"italic" }}>Waiting for race start…</div>}
                         {events.map((e,i)=>(
                           <div key={i} className="evt" style={{
-                            fontSize:12,color:i===0?"#bbb":"#333",padding:"4px 0",
-                            borderBottom:"1px solid #0a0a0a",lineHeight:1.5,
+                            fontSize:12,color:i===0?"#e0e0e0":"#aaa",padding:"4px 0",
+                            borderBottom:"1px solid #2a2a2a",lineHeight:1.5,
                             animationDelay:`${i*0.03}s`,
                           }}>{e}</div>
                         ))}
@@ -2963,7 +2963,7 @@ export default function F1StrategyLab() {
 
         {/* RESULTS TAB */}
         {tab === "result" && !raceResult && (
-          <div style={{ padding:"60px 0", textAlign:"center", color:"#1e1e1e", fontSize:13, fontStyle:"italic" }}>
+          <div style={{ padding:"60px 0", textAlign:"center", color:"#777", fontSize:13, fontStyle:"italic" }}>
             No race data yet — go to BUILD and simulate a race first.
           </div>
         )}
@@ -3016,7 +3016,7 @@ export default function F1StrategyLab() {
 
                     {/* Race time */}
                     <div style={{ textAlign:"right", flexShrink:0 }}>
-                      <div style={{ fontSize:8, letterSpacing:".2em", color:"#333", textTransform:"uppercase", marginBottom:2 }}>Time</div>
+                      <div style={{ fontSize:8, letterSpacing:".2em", color:"#999", textTransform:"uppercase", marginBottom:2 }}>Time</div>
                       <div style={{ fontSize:14, fontWeight:900, color: w.col+"cc",
                         fontFamily:"'Barlow Condensed',sans-serif", letterSpacing:".04em" }}>
                         {fmtRaceTime(w.time)}
@@ -3076,7 +3076,7 @@ export default function F1StrategyLab() {
                     <div style={{ fontSize:14,fontWeight:700,color:teamData.col+"cc" }}>
                       {raceResult.userFinishPos===1?"RACE WINNER 🏆":raceResult.userFinishPos<=3?"PODIUM FINISH":raceResult.userFinishPos<=10?"POINTS FINISH ✅":"Outside Points"}
                     </div>
-                    <div style={{ fontSize:12,color:"#333",marginTop:4 }}>{driverData.name} · {teamData.name}</div>
+                    <div style={{ fontSize:12,color:"#999",marginTop:4 }}>{driverData.name} · {teamData.name}</div>
                   </div>
                 </div>
                 <div style={{ display:"grid",gridTemplateColumns:"1fr 1fr",gap:6,marginBottom:10 }}>
@@ -3087,7 +3087,7 @@ export default function F1StrategyLab() {
                     ["DRIVE MODE", pushMode?"PUSH":"SAVE"],
                   ].map(([k,v])=>(
                     <div key={k} style={{ background:`${teamData.col}0a`,padding:"6px 8px",border:`1px solid ${teamData.col}18` }}>
-                      <div style={{ fontSize:10,color:"#333",letterSpacing:".15em" }}>{k}</div>
+                      <div style={{ fontSize:10,color:"#999",letterSpacing:".15em" }}>{k}</div>
                       <div style={{ fontSize:14,fontWeight:900,color:teamData.col+"cc",marginTop:2 }}>{v}</div>
                     </div>
                   ))}
@@ -3099,7 +3099,7 @@ export default function F1StrategyLab() {
                 {normStints.map((s,i)=>{ const C=COMPOUNDS[s.compound]||COMPOUNDS.C3; return (
                   <div key={i} style={{ display:"flex",gap:8,alignItems:"center",marginBottom:3 }}>
                     <div style={{ width:8,height:8,borderRadius:"50%",background:C.col }}/>
-                    <span style={{ fontSize:10,color:"#555" }}>{s.compound} {relName(s.compound, trackKey)} — {s.laps} laps</span>
+                    <span style={{ fontSize:10,color:"#bbb" }}>{s.compound} {relName(s.compound, trackKey)} — {s.laps} laps</span>
                   </div>
                 );})}
               </div>
@@ -3115,7 +3115,7 @@ export default function F1StrategyLab() {
                 ):(
                   <div style={{ display:"flex",gap:6 }}>
                     <input value={lbName} onChange={e=>setLbName(e.target.value)} placeholder="Your name…"
-                      style={{ flex:1,padding:"8px 10px",background:"#0d0d0d",border:"1px solid #161616",color:"#ccc",fontFamily:"'Barlow Condensed',sans-serif",fontSize:12,outline:"none" }}
+                      style={{ flex:1,padding:"8px 10px",background:"#1e1e1e",border:"1px solid #2e2e2e",color:"#ccc",fontFamily:"'Barlow Condensed',sans-serif",fontSize:12,outline:"none" }}
                       onKeyDown={e=>e.key==="Enter"&&submitScore()}
                     />
                     <button onClick={submitScore} disabled={running || !raceResult} style={{
@@ -3151,21 +3151,21 @@ export default function F1StrategyLab() {
             <div style={CARD}>
               <div style={{ display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:14 }}>
                 <div style={{...LBL}}>ALL-TIME LEADERBOARD</div>
-                <div style={{ fontSize:12,color:"#222" }}>{leaderboard.length} entries</div>
+                <div style={{ fontSize:12,color:"#888" }}>{leaderboard.length} entries</div>
               </div>
               {leaderboard.length===0?(
-                <div style={{ fontSize:12,color:"#1e1e1e",fontStyle:"italic",padding:"20px 0",textAlign:"center" }}>No entries yet. Run a race and submit your time!</div>
+                <div style={{ fontSize:12,color:"#777",fontStyle:"italic",padding:"20px 0",textAlign:"center" }}>No entries yet. Run a race and submit your time!</div>
               ):leaderboard.map((e,i)=>(
-                <div key={`${e.name}-${e.ts}`} style={{ display:"flex",gap:12,alignItems:"center",padding:"10px 0",borderBottom:"1px solid #0a0a0a" }}>
+                <div key={`${e.name}-${e.ts}`} style={{ display:"flex",gap:12,alignItems:"center",padding:"10px 0",borderBottom:"1px solid #2a2a2a" }}>
                   <div style={{ fontSize:22,fontWeight:900,color:i===0?"#FFD700":i<=2?"#888":"#222",minWidth:34,textAlign:"center" }}>#{i+1}</div>
                   <div style={{ flex:1 }}>
                     <div style={{ fontSize:14,fontWeight:700,color:"#bbb" }}>{e.name}</div>
-                    <div style={{ fontSize:11,color:"#2a2a2a",marginTop:2 }}>{e.driver} · {e.team} · {e.track} · {e.push?"PUSH":"SAVE"}</div>
+                    <div style={{ fontSize:11,color:"#888",marginTop:2 }}>{e.driver} · {e.team} · {e.track} · {e.push?"PUSH":"SAVE"}</div>
                   </div>
                   <div style={{ textAlign:"right" }}>
                     <div style={{ fontSize:16,fontWeight:900,color:e.pos===1?"#FFD700":e.pos<=3?"#888":"#444" }}>P{e.pos}</div>
-                    <div style={{ fontSize:11,color:"#2a2a2a",marginTop:1 }}>{e.time ? fmtRaceTime(e.time) : "—"}</div>
-                    <div style={{ fontSize:10,color:"#1e1e1e" }}>{e.stops} stop{e.stops!==1?"s":""}</div>
+                    <div style={{ fontSize:11,color:"#888",marginTop:1 }}>{e.time ? fmtRaceTime(e.time) : "—"}</div>
+                    <div style={{ fontSize:10,color:"#777" }}>{e.stops} stop{e.stops!==1?"s":""}</div>
                   </div>
                 </div>
               ))}
