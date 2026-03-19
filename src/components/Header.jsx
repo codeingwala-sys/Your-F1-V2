@@ -119,7 +119,10 @@ function RaceDayTicker() {
   );
 }
 
-// ─── Live session hook (no date-filtered position query — fixes 404/429) ──────
+// ─── Live session hook ────────────────────────────────────────────────────────
+// Detects an active F1 session using only the /sessions endpoint.
+// Avoids the date-filtered /position query which returns 404 for ended sessions
+// and 429 when polled too frequently.
 function useIsSessionLive() {
   const [isLive, setIsLive] = useState(false);
   const cancelRef = useRef(false);
@@ -130,23 +133,35 @@ function useIsSessionLive() {
 
     async function check() {
       if (cancelRef.current) return;
+
       const now     = Date.now();
       const fromIso = new Date(now - 8 * 3600000).toISOString().slice(0, 19);
+
+      // Only query /sessions — never /position with a date filter (causes 404/429)
       const sessions = await safeFetch(
-        `https://api.openf1.org/v1/sessions?date_start>=${encodeURIComponent(fromIso)}`
+        `https://api.openf1.org/v1/sessions?date_start>=${fromIso}`
       );
+
       let live = false;
       if (sessions?.length) {
-        const sorted = [...sessions].sort((a, b) => new Date(b.date_start) - new Date(a.date_start));
-        const sess   = sorted.find(s => !s.date_end || new Date(s.date_end).getTime() > now) || sorted[0];
+        const sorted  = [...sessions].sort((a, b) => new Date(b.date_start) - new Date(a.date_start));
+        const sess    = sorted.find(s => !s.date_end || new Date(s.date_end).getTime() > now)
+                        || sorted[0];
         if (sess) {
           const startMs = new Date(sess.date_start).getTime();
-          const endMs   = sess.date_end ? new Date(sess.date_end).getTime() : startMs + 4 * 3600000;
-          live = !sess.date_end || (now >= startMs - 15 * 60000 && now <= endMs + 3600000);
+          const endMs   = sess.date_end
+            ? new Date(sess.date_end).getTime()
+            : startMs + 4 * 3600000;
+          // Session is live if: no end date yet, OR currently within the time window
+          live = !sess.date_end
+            ? (now >= startMs && now <= startMs + 6 * 3600000)
+            : (now >= startMs - 15 * 60000 && now <= endMs + 3600000);
         }
       }
+
       if (!cancelRef.current) {
         setIsLive(live);
+        // Poll every 30s when live, every 3 min when idle
         tid = setTimeout(check, live ? 30000 : 3 * 60 * 1000);
       }
     }
